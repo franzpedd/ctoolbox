@@ -1,0 +1,4 @@
+# ignore everything inside build except the binaries
+build/*
+!build/libctoolbox.a
+!build/libctoolbox.so
