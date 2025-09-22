@@ -12,10 +12,18 @@ project(ctoolbox C)
 option(CTOOLBOX_BUILD_SHARED "Build ctoolbox as a shared library" OFF)
 
 if(CTOOLBOX_BUILD_SHARED)
-    add_library(ctoolbox SHARED darray.c)
+    add_library(ctoolbox SHARED 
+        context.h context.c
+        darray.h darray.c 
+        shashtable.h shashtable.h
+    )
     target_compile_definitions(ctoolbox PRIVATE CTOOLBOX_BUILD_SHARED)
 else()
-    add_library(ctoolbox STATIC darray.c)
+    add_library(ctoolbox STATIC 
+        context.h context.c
+        darray.h darray.c 
+        shashtable.h shashtable.h
+    )
 endif()
 
 # add include directory for public headers
