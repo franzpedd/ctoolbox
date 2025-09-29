@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.15)
 project(ctoolbox C)
 
 # user option to control library type
-option(CTOOLBOX_BUILD_SHARED "Build ctoolbox as a shared library" OFF)
+option(CTOOLBOX_BUILD_SHARED "Build ctoolbox as a shared library" ON)
 
 if(CTOOLBOX_BUILD_SHARED)
     add_library(ctoolbox SHARED 

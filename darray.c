@@ -48,12 +48,9 @@ CTOOLBOX_API darray* darray_init_memfuncs(size_t elementSize, size_t initialCapa
 
 CTOOLBOX_API void darray_destroy(darray* array)
 {
+    if(!array) return;
     ctoolbox_custom_free(&array->memfuncs, array->data);
     ctoolbox_custom_free(&array->memfuncs, array);
-
-    array->data = NULL;
-    array->size = 0;
-    array->capacity = 0;
 }
 
 CTOOLBOX_API ctoolbox_result darray_push_back(darray* array, const void* element)
