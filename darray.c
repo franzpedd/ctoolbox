@@ -20,14 +20,17 @@ struct darray
 // external
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CTOOLBOX_API ctoolbox_result darray_init(darray* outArray, size_t elementSize, size_t initialCapacity)
+CTOOLBOX_API darray* darray_init(size_t elementSize, size_t initialCapacity)
 {
-    return darray_init_memfuncs(outArray, elementSize, initialCapacity, &CTOOLBOX_DEFAULT_MEMFUNCS);
+    return darray_init_memfuncs(elementSize, initialCapacity, &CTOOLBOX_DEFAULT_MEMFUNCS);
 }
 
-CTOOLBOX_API ctoolbox_result darray_init_memfuncs(darray* outArray, size_t elementSize, size_t initialCapacity, const ctoolbox_memfuncs* memfuncs)
+CTOOLBOX_API darray* darray_init_memfuncs(size_t elementSize, size_t initialCapacity, const ctoolbox_memfuncs* memfuncs)
 {
-    if (!outArray || elementSize == 0) return CTOOLBOX_ERROR_INVALID_PARAM;
+    if (elementSize == 0) return NULL;
+
+    darray* outArray = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(darray));
+    if (!outArray) return NULL;
 
     memset(outArray, 0, sizeof(*outArray));
     outArray->size = 0;
@@ -38,14 +41,15 @@ CTOOLBOX_API ctoolbox_result darray_init_memfuncs(darray* outArray, size_t eleme
     else outArray->memfuncs = CTOOLBOX_DEFAULT_MEMFUNCS;
 
     outArray->data = ctoolbox_custom_calloc(&outArray->memfuncs, outArray->capacity, elementSize);
-    if (!outArray->data) return CTOOLBOX_ERROR_MEMORY_ALLOC;
+    if (!outArray->data) return NULL;
 
-    return CTOOLBOX_SUCCESS;
+    return outArray;
 }
 
 CTOOLBOX_API void darray_destroy(darray* array)
 {
     ctoolbox_custom_free(&array->memfuncs, array->data);
+    ctoolbox_custom_free(&array->memfuncs, array);
 
     array->data = NULL;
     array->size = 0;
@@ -54,7 +58,7 @@ CTOOLBOX_API void darray_destroy(darray* array)
 
 CTOOLBOX_API ctoolbox_result darray_push_back(darray* array, const void* element)
 {
-    if (!array || !element) return CTOOLBOX_ERROR_INVALID_PARAM;
+    if (!array) return CTOOLBOX_ERROR_INVALID_PARAM;
 
     // ensure capacity
     if (array->size >= array->capacity) {
@@ -76,6 +80,17 @@ CTOOLBOX_API ctoolbox_result darray_pop_back(darray* array, void* elementOut)
 
     array->size--;
     return CTOOLBOX_SUCCESS;
+}
+
+CTOOLBOX_API const void* darray_const_peek(const darray* array, size_t index)
+{
+    if (!array || index >= array->size) return NULL;
+    return (char*)array->data + (index * array->elementSize);
+}
+
+CTOOLBOX_API const void* darray_const_data(const darray* array)
+{
+    return array ? array->data : NULL;
 }
 
 CTOOLBOX_API ctoolbox_result darray_get(const darray *array, size_t index, void* elementOut)

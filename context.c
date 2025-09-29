@@ -21,7 +21,7 @@ CTOOLBOX_API void* ctoolbox_custom_calloc(const ctoolbox_memfuncs* fun, size_t n
 
 CTOOLBOX_API void ctoolbox_custom_free(const ctoolbox_memfuncs* fun, void* ptr)
 {
-    return fun->free_fn ? fun->free_fn(ptr) : free(ptr);
+    fun->free_fn ? fun->free_fn(ptr) : free(ptr);
 }
 
 CTOOLBOX_API void* ctoolbox_custom_realloc(const ctoolbox_memfuncs* fun, void* ptr, size_t newSize)

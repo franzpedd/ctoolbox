@@ -51,16 +51,15 @@ CTOOLBOX_API ctoolbox_result shash_strdup(const ctoolbox_memfuncs* fun, const ch
 // external
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CTOOLBOX_API ctoolbox_result shashtable_init(shashtable* outHashtable)
+CTOOLBOX_API shashtable* shashtable_init()
 {
-   return shashtable_init_memfuncs(outHashtable, &CTOOLBOX_DEFAULT_MEMFUNCS);
+   return shashtable_init_memfuncs(&CTOOLBOX_DEFAULT_MEMFUNCS);
 }
 
-CTOOLBOX_API ctoolbox_result shashtable_init_memfuncs(shashtable* outHashtable, const ctoolbox_memfuncs* memfuncs)
+CTOOLBOX_API shashtable* shashtable_init_memfuncs(const ctoolbox_memfuncs* memfuncs)
 {
-    if (!outHashtable) return CTOOLBOX_ERROR_INVALID_PARAM;
+    shashtable* outHashtable = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(shashtable));
 
-    memset(outHashtable, 0, sizeof(*outHashtable));
     for (int i = 0; i < SHASHTABLE_SIZE; i++) {
         outHashtable->buckets[i] = NULL;
     }
@@ -69,7 +68,7 @@ CTOOLBOX_API ctoolbox_result shashtable_init_memfuncs(shashtable* outHashtable, 
     else outHashtable->memfuncs = CTOOLBOX_DEFAULT_MEMFUNCS;
 
     outHashtable->count = 0;
-    return CTOOLBOX_SUCCESS;
+    return outHashtable;
 }
 
 CTOOLBOX_API void shashtable_destroy(shashtable* table)
@@ -85,6 +84,7 @@ CTOOLBOX_API void shashtable_destroy(shashtable* table)
             entry = next;
         }
     }
+    ctoolbox_custom_free(&table->memfuncs, table);
 }
 
 CTOOLBOX_API ctoolbox_result shashtable_insert(shashtable *table, const char* key, void* value)
@@ -168,12 +168,12 @@ CTOOLBOX_API void* shashtable_lookup(shashtable* table, const char* key)
     return NULL;
 }
 
-CTOOLBOX_API bool shashtable_contains(const shashtable *table, const char *key)
+CTOOLBOX_API bool shashtable_contains(shashtable* table, const char *key)
 {
     return shashtable_lookup(table, key) != NULL;
 }
 
-CTOOLBOX_API size_t shashtable_count(const shashtable *table)
+CTOOLBOX_API size_t shashtable_count(shashtable* table)
 {
     return table ? table->count : 0;
 }

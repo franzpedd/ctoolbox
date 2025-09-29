@@ -15,14 +15,14 @@ if(CTOOLBOX_BUILD_SHARED)
     add_library(ctoolbox SHARED 
         context.h context.c
         darray.h darray.c 
-        shashtable.h shashtable.h
+        shashtable.h shashtable.c
     )
     target_compile_definitions(ctoolbox PRIVATE CTOOLBOX_BUILD_SHARED)
 else()
     add_library(ctoolbox STATIC 
         context.h context.c
         darray.h darray.c 
-        shashtable.h shashtable.h
+        shashtable.h shashtable.c
     )
 endif()
 

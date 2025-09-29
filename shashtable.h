@@ -23,10 +23,10 @@ extern "C" {
 #endif
 
 /// @brief creates the hashtable
-CTOOLBOX_API ctoolbox_result shashtable_init(shashtable* outHashtable);
+CTOOLBOX_API shashtable* shashtable_init();
 
 /// @brief creates the hashtable with custom memory allocation functions
-CTOOLBOX_API ctoolbox_result shashtable_init_memfuncs(shashtable* outHashtable, const ctoolbox_memfuncs* memfuncs);
+CTOOLBOX_API shashtable* shashtable_init_memfuncs(const ctoolbox_memfuncs* memfuncs);
 
 /// @brief destroys the hashtable
 CTOOLBOX_API void shashtable_destroy(shashtable* table);
@@ -41,10 +41,10 @@ CTOOLBOX_API ctoolbox_result shashtable_delete(shashtable* table, const char* ke
 CTOOLBOX_API void* shashtable_lookup(shashtable* table, const char* key);
 
 /// @brief checks if a given key exists in the hashtable
-CTOOLBOX_API bool shashtable_contains(const shashtable* table, const char* key);
+CTOOLBOX_API bool shashtable_contains(shashtable* table, const char* key);
 
 /// @brief returns how many entries exists in the hashtable
-CTOOLBOX_API size_t shashtable_count(const shashtable* table);
+CTOOLBOX_API size_t shashtable_count(shashtable* table);
 
 #ifdef __cplusplus
 }

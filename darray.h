@@ -15,10 +15,10 @@ extern "C" {
 #endif
 
 /// @brief initializes the dynamic array
-CTOOLBOX_API ctoolbox_result darray_init(darray* outArray, size_t elementSize, size_t initialCapacity);
+CTOOLBOX_API darray* darray_init(size_t elementSize, size_t initialCapacity);
 
 /// @brief initializes the dynamic array with custom memory allocation functions
-CTOOLBOX_API ctoolbox_result darray_init_memfuncs(darray* outArray, size_t elementSize, size_t initialCapacity, const ctoolbox_memfuncs* memfuncs);
+CTOOLBOX_API darray* darray_init_memfuncs(size_t elementSize, size_t initialCapacity, const ctoolbox_memfuncs* memfuncs);
 
 /// @brief destroys the dynamic array, but not the content itself, be-warned
 CTOOLBOX_API void darray_destroy(darray* array);
@@ -28,6 +28,12 @@ CTOOLBOX_API ctoolbox_result darray_push_back(darray* array, const void* element
 
 /// @brief removes an item from the array's back, not freeing it
 CTOOLBOX_API ctoolbox_result darray_pop_back(darray* array, void* elementOut);
+
+/// @brief sees what is underneath a given index on the array
+CTOOLBOX_API const void* darray_const_peek(const darray* array, size_t index);
+
+/// @brief access the data underneath the array
+CTOOLBOX_API const void* darray_const_data(const darray* array);
 
 /// @brief returns an item from the array
 CTOOLBOX_API ctoolbox_result darray_get(const darray* array, size_t index, void* elementOut);
