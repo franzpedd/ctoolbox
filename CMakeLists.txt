@@ -7,6 +7,9 @@
 
 cmake_minimum_required(VERSION 3.15)
 project(ctoolbox C)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
 
 # user option to control library type
 option(CTOOLBOX_BUILD_SHARED "Build ctoolbox as a shared library" ON)
@@ -17,7 +20,7 @@ if(CTOOLBOX_BUILD_SHARED)
         darray.h darray.c 
         shashtable.h shashtable.c
     )
-    target_compile_definitions(ctoolbox PRIVATE CTOOLBOX_BUILD_SHARED)
+    target_compile_definitions(ctoolbox PRIVATE CTOOLBOX_BUILD_SHARED CTOOLBOX_EXPORTS)
 else()
     add_library(ctoolbox STATIC 
         context.h context.c

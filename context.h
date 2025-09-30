@@ -4,21 +4,21 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-/// @brief handle shared/static library
-#if defined(_WIN32) || defined(_WIN64)
-    #if defined(CTOOLBOX_BUILD_SHARED)
-        #define CTOOLBOX_API __declspec(dllexport)
-    #elif defined(CTOOLBOX_USE_SHARED)
-        #define CTOOLBOX_API __declspec(dllimport)
-    #else
-        #define CTOOLBOX_API
-    #endif
-#else
-    #if defined(CTOOLBOX_BUILD_SHARED) && (__GNUC__ >= 4)
+/// @brief compilation options
+#if defined(CTOOLBOX_BUILD_SHARED) // shared library
+    #if defined(_WIN32) || defined(_WIN64)
+        #if defined(CTOOLBOX_EXPORTS)
+            #define CTOOLBOX_API __declspec(dllexport)
+        #else
+            #define CTOOLBOX_API __declspec(dllimport)
+        #endif
+    #elif defined(__linux__) && !defined(__ANDROID__)
         #define CTOOLBOX_API __attribute__((visibility("default")))
     #else
         #define CTOOLBOX_API
     #endif
+#else
+    #define CTOOLBOX_API // static library
 #endif
 
 /// @brief various types of erros that may happen when using the library
