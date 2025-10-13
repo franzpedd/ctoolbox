@@ -18,6 +18,7 @@ if(CTOOLBOX_BUILD_SHARED)
     add_library(ctoolbox SHARED 
         context.h context.c
         darray.h darray.c 
+        idgen.h idgen.c
         shashtable.h shashtable.c
     )
     target_compile_definitions(ctoolbox PRIVATE CTOOLBOX_BUILD_SHARED CTOOLBOX_EXPORTS)
@@ -25,6 +26,7 @@ else()
     add_library(ctoolbox STATIC 
         context.h context.c
         darray.h darray.c 
+        idgen.h idgen.c
         shashtable.h shashtable.c
     )
 endif()

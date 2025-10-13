@@ -11,6 +11,8 @@ Currently not thread-safe;
 * darray_destroy();
 * darray_push_back();
 * darray_pop_back();
+* darray_const_peek();
+* darray_const_data();
 * darray_get();
 * darray_set(); 
 * darray_insert_at();
@@ -21,6 +23,17 @@ Currently not thread-safe;
 * darray_size();
 * darray_capacity();
 * darray_empty();
+
+### idgen  (id generator)
+
+* idgen_create(); / idgen_create_memfuncs();
+* idgen_destroy();
+* idgen_next();
+* idgen_register();
+* idgen_unregister();
+* idgen_is_registered();
+* idgen_count();
+* idgen_reset();
 
 ### shashtable (static hashtable)
 

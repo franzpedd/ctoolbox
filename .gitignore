@@ -2,3 +2,6 @@
 build/*
 !build/libctoolbox.a
 !build/libctoolbox.so
+
+# ignore vscode folder
+.vscode/

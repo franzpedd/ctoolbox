@@ -2,6 +2,7 @@
 #define CTOOLBOX_CONTEXT_INCLUDED
 
 #include <stddef.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 /// @brief compilation options

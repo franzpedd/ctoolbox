@@ -32,7 +32,7 @@ CTOOLBOX_API darray* darray_init_memfuncs(size_t elementSize, size_t initialCapa
     darray* outArray = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(darray));
     if (!outArray) return NULL;
 
-    memset(outArray, 0, sizeof(*outArray));
+    memset(outArray, 0, sizeof(darray));
     outArray->size = 0;
     outArray->elementSize = elementSize;
     outArray->capacity = initialCapacity > 0 ? initialCapacity : 1;
