@@ -3,14 +3,18 @@
 
 #include "context.h"
 
+#ifndef IDGEN_MAX_SAFE_IDS
+#define IDGEN_MAX_SAFE_IDS 16777216 // maximum of 16.7 million IDs (~2MB memory usage)
+#endif // IDGEN_MAX_SAFE_IDS
+
 /// @brief opaque id generator structure
 typedef struct idgen idgen;
 
 /// @brief initializes generator, set to UINT32_MAX for full range
-CTOOLBOX_API idgen* idgen_create(uint32_t start_id, uint32_t max_id);
+CTOOLBOX_API idgen* idgen_create(uint32_t start_id);
 
 /// @brief initializes generator with custom allocation functions
-CTOOLBOX_API idgen* idgen_create_memfuncs(uint32_t start_id, uint32_t max_id, const ctoolbox_memfuncs* memfuncs);
+CTOOLBOX_API idgen* idgen_create_memfuncs(uint32_t start_id, const ctoolbox_memfuncs* memfuncs);
 
 /// @brief releases the resources of the id generator
 CTOOLBOX_API void idgen_destroy(idgen* gen);
