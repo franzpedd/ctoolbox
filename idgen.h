@@ -7,6 +7,15 @@
 #define IDGEN_MAX_SAFE_IDS 16777216 // maximum of 16.7 million IDs (~2MB memory usage)
 #endif // IDGEN_MAX_SAFE_IDS
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// functions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// @brief opaque id generator structure
 typedef struct idgen idgen;
 
@@ -37,4 +46,8 @@ CTOOLBOX_API uint32_t idgen_count(idgen* gen);
 /// @brief resets generator to initial state
 CTOOLBOX_API void idgen_reset(idgen* gen);
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif // IDGEN_H

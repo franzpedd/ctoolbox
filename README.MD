@@ -2,9 +2,9 @@
 Useful C data structures bundled-up into one library;
 
 User owns the memory, not the library;
-Available both as a dynamic or static library;
+Available as a dynamic, static library or header only;
 Supports custom memory allocator, uses default if not provided;
-Currently not thread-safe;
+Not thread-safe;
 
 ### darray (dynamic array)
 * darray_init(); / darray_init_memfuncs();
@@ -47,4 +47,7 @@ Currently not thread-safe;
 
 Capacity is statically set at 128 but can be overwritten with ```#define SHASHTABLE_SIZE```. Handles collisions with a linked list.
 
-## License
+## Header only
+There's a C++ generator for the header-only version, it creates the files ```headeronly/ctoolbox.h``` and ```headeronly/ctoolbox.c```. Here's how to use it:
+
+* Just ```#define CTOOLBOX_IMPLEMENTATION``` in one .c (source) file on your project before ```#include "ctoolbox.h``` and you're set. Both files must be present on your project's directory path but you should not compile ```ctoolbox.c``` in this case.

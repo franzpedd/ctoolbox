@@ -1,7 +1,6 @@
-# ignore everything inside build except the binaries
-build/*
-!build/libctoolbox.a
-!build/libctoolbox.so
-
-# ignore vscode folder
+# paths
 .vscode/
+build/
+
+# files
+tools/make_singleheader.exe
