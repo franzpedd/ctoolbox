@@ -56,7 +56,7 @@ void fun_create_header(void)
         "#endif // CTOOLBOX_INCLUDED\n\n"
         "#ifdef CTOOLBOX_IMPLEMENTATION\n"
         "#undef CTOOLBOX_IMPLEMENTATION\n"
-        "#include \"ctoolbox.h\"\n"
+        "#include \"ctoolbox.c\"\n"
         "#endif // CTOOLBOX_IMPLEMENTATION\n"
     };
 

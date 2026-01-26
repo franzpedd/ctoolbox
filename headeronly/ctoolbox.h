@@ -247,5 +247,5 @@ CTOOLBOX_API size_t shashtable_count(shashtable* table);
 
 #ifdef CTOOLBOX_IMPLEMENTATION
 #undef CTOOLBOX_IMPLEMENTATION
-#include "ctoolbox.h"
+#include "ctoolbox.c"
 #endif // CTOOLBOX_IMPLEMENTATION
