@@ -92,7 +92,7 @@ void fun_create_source(void)
 
     FILE* outputFile = fopen("../headeronly/ctoolbox.c", "w");
 
-    content_node_t context; context.start = 3; context.end = 31; context.filePath = "../context.c";
+    content_node_t context; context.start = 3; context.end = 41; context.filePath = "../context.c";
     content_node_t darray; darray.start = 5; darray.end = 233; darray.filePath = "../darray.c";
     content_node_t idgen; idgen.start = 5; idgen.end = 159; idgen.filePath = "../idgen.c";
     content_node_t shashtable; shashtable.start = 4; shashtable.end = 180; shashtable.filePath = "../shashtable.c";

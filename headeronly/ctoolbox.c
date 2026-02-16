@@ -6,6 +6,15 @@
 // Context
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef __cplusplus
+CTOOLBOX_API const ctoolbox_memfuncs CTOOLBOX_DEFAULT_MEMFUNCS =
+{
+    malloc,   /* .malloc_fn */
+    calloc,   /* .calloc_fn */
+    free,     /* .free_fn */
+    realloc   /* .realloc_fn */
+};
+#else
 CTOOLBOX_API const ctoolbox_memfuncs CTOOLBOX_DEFAULT_MEMFUNCS =
 {
     .malloc_fn = malloc,
@@ -13,6 +22,7 @@ CTOOLBOX_API const ctoolbox_memfuncs CTOOLBOX_DEFAULT_MEMFUNCS =
     .free_fn = free,
     .realloc_fn = realloc
 };
+#endif
 
 CTOOLBOX_API void* ctoolbox_custom_malloc(const ctoolbox_memfuncs* fun, size_t size)
 {
