@@ -2,6 +2,10 @@
 
 #include <string.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // internal
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +62,7 @@ CTOOLBOX_API shashtable* shashtable_init()
 
 CTOOLBOX_API shashtable* shashtable_init_memfuncs(const ctoolbox_memfuncs* memfuncs)
 {
-    shashtable* outHashtable = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(shashtable));
+    shashtable* outHashtable = (shashtable*)ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(shashtable));
 
     for (int i = 0; i < SHASHTABLE_SIZE; i++) {
         outHashtable->buckets[i] = NULL;
@@ -177,3 +181,7 @@ CTOOLBOX_API size_t shashtable_count(shashtable* table)
 {
     return table ? table->count : 0;
 }
+
+#ifdef __cplusplus
+}
+#endif

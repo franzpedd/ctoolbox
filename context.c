@@ -19,6 +19,10 @@ CTOOLBOX_API const ctoolbox_memfuncs CTOOLBOX_DEFAULT_MEMFUNCS =
 };
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 CTOOLBOX_API void* ctoolbox_custom_malloc(const ctoolbox_memfuncs* fun, size_t size)
 {
     return fun->malloc_fn ? fun->malloc_fn(size) : malloc(size);
@@ -38,3 +42,7 @@ CTOOLBOX_API void* ctoolbox_custom_realloc(const ctoolbox_memfuncs* fun, void* p
 {
     return fun->realloc_fn ? fun->realloc_fn(ptr, newSize) : realloc(ptr, newSize);
 }
+
+#ifdef __cplusplus
+}
+#endif

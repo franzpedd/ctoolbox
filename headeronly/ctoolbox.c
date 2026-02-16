@@ -24,6 +24,10 @@ CTOOLBOX_API const ctoolbox_memfuncs CTOOLBOX_DEFAULT_MEMFUNCS =
 };
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 CTOOLBOX_API void* ctoolbox_custom_malloc(const ctoolbox_memfuncs* fun, size_t size)
 {
     return fun->malloc_fn ? fun->malloc_fn(size) : malloc(size);
@@ -44,9 +48,17 @@ CTOOLBOX_API void* ctoolbox_custom_realloc(const ctoolbox_memfuncs* fun, void* p
     return fun->realloc_fn ? fun->realloc_fn(ptr, newSize) : realloc(ptr, newSize);
 }
 
+#ifdef __cplusplus
+}
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Dynamic Array
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // internal
@@ -74,7 +86,7 @@ CTOOLBOX_API darray* darray_init_memfuncs(size_t elementSize, size_t initialCapa
 {
     if (elementSize == 0) return NULL;
 
-    darray* outArray = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(darray));
+    darray* outArray = (darray*)ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(darray));
     if (!outArray) return NULL;
 
     memset(outArray, 0, sizeof(darray));
@@ -226,7 +238,7 @@ CTOOLBOX_API ctoolbox_result darray_reserve(darray* array, size_t newCapacity)
 
     // fallback: allocate, copy and free
     else {
-        newData = ctoolbox_custom_malloc(&array->memfuncs, newSizeBytes);
+        newData = (void*)ctoolbox_custom_malloc(&array->memfuncs, newSizeBytes);
         if (!newData) return CTOOLBOX_ERROR_MEMORY_ALLOC;
 
         memcpy(newData, array->data, oldSizeBytes);
@@ -251,7 +263,7 @@ CTOOLBOX_API ctoolbox_result darray_shrink_to_fit(darray* array)
         return CTOOLBOX_SUCCESS;
     }
 
-    void* newData = ctoolbox_custom_malloc(&array->memfuncs, array->size * array->elementSize);
+    void* newData = (void*)ctoolbox_custom_malloc(&array->memfuncs, array->size * array->elementSize);
     if (!newData) return CTOOLBOX_ERROR_MEMORY_ALLOC;
 
     memcpy(newData, array->data, array->size * array->elementSize);
@@ -276,9 +288,17 @@ CTOOLBOX_API bool darray_empty(const darray *array)
     return array ? (array->size == 0) : true;
 }
 
+#ifdef __cplusplus
+}
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ID Generator
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct idgen
 {
@@ -331,7 +351,7 @@ CTOOLBOX_API idgen* idgen_create_memfuncs(uint32_t start_id, const ctoolbox_memf
     const ctoolbox_memfuncs* actual_memfuncs = memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS;
     if (start_id >= IDGEN_MAX_SAFE_IDS) return NULL;
 
-    idgen* gen = ctoolbox_custom_malloc(actual_memfuncs, sizeof(idgen));
+    idgen* gen = (idgen*)ctoolbox_custom_malloc(actual_memfuncs, sizeof(idgen));
     if (!gen)  return NULL;
 
     memset(gen, 0, sizeof(*gen));
@@ -345,7 +365,7 @@ CTOOLBOX_API idgen* idgen_create_memfuncs(uint32_t start_id, const ctoolbox_memf
         gen->bitset_size = 1;
     }
 
-    gen->used_bits = ctoolbox_custom_malloc(actual_memfuncs, gen->bitset_size * sizeof(uint32_t));
+    gen->used_bits = (uint32_t*)ctoolbox_custom_malloc(actual_memfuncs, gen->bitset_size * sizeof(uint32_t));
     if (!gen->used_bits) {
         ctoolbox_custom_free(actual_memfuncs, gen);
         return NULL;
@@ -434,9 +454,17 @@ CTOOLBOX_API void idgen_reset(idgen* gen)
     gen->current_id = gen->start_id;
 }
 
+#ifdef __cplusplus
+}
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Static Hashtable
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // internal
@@ -494,7 +522,7 @@ CTOOLBOX_API shashtable* shashtable_init()
 
 CTOOLBOX_API shashtable* shashtable_init_memfuncs(const ctoolbox_memfuncs* memfuncs)
 {
-    shashtable* outHashtable = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(shashtable));
+    shashtable* outHashtable = (shashtable*)ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(shashtable));
 
     for (int i = 0; i < SHASHTABLE_SIZE; i++) {
         outHashtable->buckets[i] = NULL;
@@ -613,4 +641,8 @@ CTOOLBOX_API size_t shashtable_count(shashtable* table)
 {
     return table ? table->count : 0;
 }
+
+#ifdef __cplusplus
+}
+#endif
 

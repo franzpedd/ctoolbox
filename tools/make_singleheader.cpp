@@ -48,7 +48,7 @@ void fun_create_header(void)
 
     content_node_t context; context.start = 7; context.end = 78; context.filePath = "../context.h";
     content_node_t darray; darray.start = 5; darray.end = 71; darray.filePath = "../darray.h";
-    content_node_t idgen; idgen.start = 5; idgen.end = 39; idgen.filePath = "../idgen.h";
+    content_node_t idgen; idgen.start = 5; idgen.end = 51; idgen.filePath = "../idgen.h";
     content_node_t shashtable; shashtable.start = 5; shashtable.end = 52; shashtable.filePath = "../shashtable.h";
 
     char footer[] = 
@@ -92,10 +92,10 @@ void fun_create_source(void)
 
     FILE* outputFile = fopen("../headeronly/ctoolbox.c", "w");
 
-    content_node_t context; context.start = 3; context.end = 41; context.filePath = "../context.c";
-    content_node_t darray; darray.start = 5; darray.end = 233; darray.filePath = "../darray.c";
-    content_node_t idgen; idgen.start = 5; idgen.end = 159; idgen.filePath = "../idgen.c";
-    content_node_t shashtable; shashtable.start = 4; shashtable.end = 180; shashtable.filePath = "../shashtable.c";
+    content_node_t context; context.start = 3; context.end = 49; context.filePath = "../context.c";
+    content_node_t darray; darray.start = 5; darray.end = 241; darray.filePath = "../darray.c";
+    content_node_t idgen; idgen.start = 5; idgen.end = 167; idgen.filePath = "../idgen.c";
+    content_node_t shashtable; shashtable.start = 4; shashtable.end = 188; shashtable.filePath = "../shashtable.c";
 
     fprintf(outputFile, "%s", header);
 

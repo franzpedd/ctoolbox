@@ -5,6 +5,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// @brief compilation options
 #if defined(CTOOLBOX_BUILD_SHARED) // shared library
     #if defined(_WIN32) || defined(_WIN64)
@@ -55,10 +59,6 @@ CTOOLBOX_API extern const ctoolbox_memfuncs CTOOLBOX_DEFAULT_MEMFUNCS;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /// @brief custom malloc call, overrides default malloc with an optional custom function provided by the user
 CTOOLBOX_API void* ctoolbox_custom_malloc(const ctoolbox_memfuncs* fun, size_t size);

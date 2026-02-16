@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // internal
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +33,7 @@ CTOOLBOX_API darray* darray_init_memfuncs(size_t elementSize, size_t initialCapa
 {
     if (elementSize == 0) return NULL;
 
-    darray* outArray = ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(darray));
+    darray* outArray = (darray*)ctoolbox_custom_malloc(memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS, sizeof(darray));
     if (!outArray) return NULL;
 
     memset(outArray, 0, sizeof(darray));
@@ -181,7 +185,7 @@ CTOOLBOX_API ctoolbox_result darray_reserve(darray* array, size_t newCapacity)
 
     // fallback: allocate, copy and free
     else {
-        newData = ctoolbox_custom_malloc(&array->memfuncs, newSizeBytes);
+        newData = (void*)ctoolbox_custom_malloc(&array->memfuncs, newSizeBytes);
         if (!newData) return CTOOLBOX_ERROR_MEMORY_ALLOC;
 
         memcpy(newData, array->data, oldSizeBytes);
@@ -206,7 +210,7 @@ CTOOLBOX_API ctoolbox_result darray_shrink_to_fit(darray* array)
         return CTOOLBOX_SUCCESS;
     }
 
-    void* newData = ctoolbox_custom_malloc(&array->memfuncs, array->size * array->elementSize);
+    void* newData = (void*)ctoolbox_custom_malloc(&array->memfuncs, array->size * array->elementSize);
     if (!newData) return CTOOLBOX_ERROR_MEMORY_ALLOC;
 
     memcpy(newData, array->data, array->size * array->elementSize);
@@ -230,3 +234,7 @@ CTOOLBOX_API bool darray_empty(const darray *array)
  {
     return array ? (array->size == 0) : true;
 }
+
+#ifdef __cplusplus
+}
+#endif

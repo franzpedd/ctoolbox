@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct idgen
 {
     uint32_t current_id;
@@ -54,7 +58,7 @@ CTOOLBOX_API idgen* idgen_create_memfuncs(uint32_t start_id, const ctoolbox_memf
     const ctoolbox_memfuncs* actual_memfuncs = memfuncs ? memfuncs : &CTOOLBOX_DEFAULT_MEMFUNCS;
     if (start_id >= IDGEN_MAX_SAFE_IDS) return NULL;
 
-    idgen* gen = ctoolbox_custom_malloc(actual_memfuncs, sizeof(idgen));
+    idgen* gen = (idgen*)ctoolbox_custom_malloc(actual_memfuncs, sizeof(idgen));
     if (!gen)  return NULL;
 
     memset(gen, 0, sizeof(*gen));
@@ -68,7 +72,7 @@ CTOOLBOX_API idgen* idgen_create_memfuncs(uint32_t start_id, const ctoolbox_memf
         gen->bitset_size = 1;
     }
 
-    gen->used_bits = ctoolbox_custom_malloc(actual_memfuncs, gen->bitset_size * sizeof(uint32_t));
+    gen->used_bits = (uint32_t*)ctoolbox_custom_malloc(actual_memfuncs, gen->bitset_size * sizeof(uint32_t));
     if (!gen->used_bits) {
         ctoolbox_custom_free(actual_memfuncs, gen);
         return NULL;
@@ -156,3 +160,7 @@ CTOOLBOX_API void idgen_reset(idgen* gen)
     gen->count = 0;
     gen->current_id = gen->start_id;
 }
+
+#ifdef __cplusplus
+}
+#endif
